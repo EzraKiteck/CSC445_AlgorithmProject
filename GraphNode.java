@@ -1,14 +1,7 @@
-public class GraphNode
+interface GraphNode
 {
-    private boolean isBlocked;
+    public int getPosX();
+    public int getPosY();
 
-    public GraphNode(boolean isBlocked)
-    {
-        this.isBlocked = isBlocked;
-    }
-
-    public boolean getIsBlocked()
-    {
-        return isBlocked;
-    }
+    public boolean getIsBlocked();
 }
