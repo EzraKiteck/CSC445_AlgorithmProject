@@ -6,52 +6,34 @@ public class Main {
         System.out.println("Hello, Everybody!");
 
         String[] nodeMapStrings = {
-        "0100000000",
-        "0000000000",
-        "1000000000",
-        "0000000000",
+        "0111100000",
+        "00001E0000",
+        "1010111110",
+        "1010000010",
+        "1010001010",
+        "0111001000",
         "0000001110",
-        "0000001010",
-        "0000001110",
-        "0000000000",
-        "0000000000",
-        "0000000000",
+        "1110001111",
+        "1110S00000",
+        "1110001010",
         };
 
         // Grid Setup
         Graph projectGraph = new Graph(10, nodeMapStrings);
         OpenNodesList openNodes = new OpenNodesList();
-        GraphNode currentNode;
-
-        // Pathfind Start and end
-        projectGraph.setStartNode(0, 0);
-        projectGraph.setEndNode(9, 9);
-
-        // Pathfind start!
-        currentNode = projectGraph.getNode(0, 5);
-
 
         projectGraph.printGraph();
-        System.out.println(projectGraph.isNodeBlocked(1, 0));
+        //System.out.println(projectGraph.isNodeBlocked(1, 0));
 
-        projectGraph.openNode(1, 2);
-        openNodes.addNode(projectGraph.getNode(1, 2));
+        projectGraph.openNode(4, 2);
+        projectGraph.openNode(2, 2);
+        projectGraph.openNode(3, 3);
+        projectGraph.openNode(3, 1);
 
-        currentNode = projectGraph.getNode(0, 5);
-        GraphNode eastN = projectGraph.getNode(currentNode.getPosX() + 1, currentNode.getPosY());
-        GraphNode westN = projectGraph.getNode(currentNode.getPosX() + -1, currentNode.getPosY());
-        GraphNode northN = projectGraph.getNode(currentNode.getPosX(), currentNode.getPosY() - 1);
-        GraphNode southN = projectGraph.getNode(currentNode.getPosX(), currentNode.getPosY() + 1);
-
-        if (eastN != null)
-        {
-            if (!eastN.getIsBlocked())
-            {
-            openNodes.addNode(eastN);
-            }
-        }
-
-        
+        openNodes.addNode((OpenNode)projectGraph.getNode(4, 2));
+        openNodes.addNode((OpenNode)projectGraph.getNode(2, 2));
+        openNodes.addNode((OpenNode)projectGraph.getNode(3, 3));
+        openNodes.addNode((OpenNode)projectGraph.getNode(3, 1));
 
         openNodes.printNodes();
     }

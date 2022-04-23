@@ -5,7 +5,7 @@ public class OpenNode extends DefaultNode
     private int hCost;
     private int fCost;
 
-    public OpenNode(DefaultNode node, DefaultNode startNode, DefaultNode endNode)
+    public OpenNode(GraphNode node, GraphNode startNode, GraphNode endNode)
     {
         super(node.getIsBlocked(), node.getPosX(), node.getPosY());
         this.gCost = getDistance(startNode.getPosX(), startNode.getPosY(), node.getPosX(), node.getPosY());

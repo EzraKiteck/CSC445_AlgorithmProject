@@ -1,10 +1,10 @@
 
 public class Graph
 {
-    DefaultNode[][] nodes;
+    GraphNode[][] nodes;
 
-    DefaultNode startNode;
-    DefaultNode endNode;
+    GraphNode startNode;
+    GraphNode endNode;
 
     public Graph(int size, String[] buildStrings)
     {
@@ -19,9 +19,19 @@ public class Graph
                 {
                     nodes[x][y] = new DefaultNode(false, x, y);
                 }
-                else
+                else if (row.charAt(x) == '1')
                 {
                     nodes[x][y] = new DefaultNode(true, x, y); 
+                }
+                else if (row.charAt(x) == 'S')
+                {
+                    nodes[x][y] = new DefaultNode(false, x, y);
+                    startNode = nodes[x][y];
+                }
+                else if (row.charAt(x) == 'E')
+                {
+                    nodes[x][y] = new DefaultNode(false, x, y);
+                    endNode = nodes[x][y];
                 }
             }
         }
@@ -31,25 +41,39 @@ public class Graph
         for (int y = 0; y < nodes.length; ++y)
         {
             String row = "|";
+            String block = "";
             for (int x = 0; x < nodes.length; ++x)
             {
+                block = "";
                 if(isNodeBlocked(x, y))
                 {
-                    row += "1";
+                    block = "[]";
+                    
                 }
                 else
                 {
-                    row += "0";
+                    block = "``";
+                }
+
+                if(getNode(x, y) == startNode)
+                {
+                    block = "St";
+                }
+
+                if(getNode(x, y) == endNode)
+                {
+                    block = "En";
                 }
 
                 if(x != nodes.length - 1)
                 {
-                    row += "-";
+                    block += "-";
                 }
                 else
                 {
-                    row += "|";
+                    block += "|";
                 }
+                row += block;
             }
             System.out.println(row);
         }
@@ -68,16 +92,6 @@ public class Graph
         }
     }
 
-    public void setStartNode(int x, int y)
-    {
-        startNode = nodes[x][y];
-    }
-
-    public void setEndNode(int x, int y)
-    {
-        endNode = nodes[x][y];
-    }
-
     public GraphNode getNode(int x, int y)
     {
         if (x < nodes.length && y < nodes[0].length && x >= 0 && y >= 0)
@@ -88,11 +102,13 @@ public class Graph
         {
             return null;
         }
-        
     }
 
     public void openNode(int x, int y)
     {
-        nodes[x][y] = new OpenNode(nodes[x][y], startNode, endNode);
+        if (!isNodeBlocked(x, y))
+        {
+            nodes[x][y] = new OpenNode(nodes[x][y], startNode, endNode);
+        }
     }
 }
