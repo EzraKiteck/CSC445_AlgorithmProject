@@ -19,19 +19,9 @@ public class Graph
                 {
                     nodes[x][y] = new DefaultNode(false, x, y);
                 }
-                else if (row.charAt(x) == '1')
+                else
                 {
                     nodes[x][y] = new DefaultNode(true, x, y); 
-                }
-                else if (row.charAt(x) == 'S')
-                {
-                    nodes[x][y] = new DefaultNode(false, x, y);
-                    startNode = nodes[x][y];
-                }
-                else if (row.charAt(x) == 'E')
-                {
-                    nodes[x][y] = new DefaultNode(false, x, y);
-                    endNode = nodes[x][y];
                 }
             }
         }
@@ -53,16 +43,6 @@ public class Graph
                 else
                 {
                     block = "``";
-                }
-
-                if(getNode(x, y) == startNode)
-                {
-                    block = "St";
-                }
-
-                if(getNode(x, y) == endNode)
-                {
-                    block = "En";
                 }
 
                 if(x != nodes.length - 1)
@@ -101,14 +81,6 @@ public class Graph
         else
         {
             return null;
-        }
-    }
-
-    public void openNode(int x, int y)
-    {
-        if (!isNodeBlocked(x, y))
-        {
-            nodes[x][y] = new OpenNode(nodes[x][y], startNode, endNode);
         }
     }
 }

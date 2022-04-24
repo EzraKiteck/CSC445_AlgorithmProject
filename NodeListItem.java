@@ -10,10 +10,6 @@ public class NodeListItem
         listItemValue = value;
     }
 
-    public void setListItemValue(OpenNode listItemValue) {
-        this.listItemValue = listItemValue;
-    }
-
     public OpenNode getListItemValue() {
         return listItemValue;
     }

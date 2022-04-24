@@ -15,7 +15,7 @@ public class OpenNode extends DefaultNode
 
     private int getDistance(int startX, int startY, int endX, int endY)
     {
-        return (int) Math.round(Math.sqrt(Math.pow(Math.abs(startX - endX),2) + Math.pow(Math.abs(startY - endY),2)));
+        return (int) Math.round(Math.sqrt(Math.pow(Math.abs(startX - endX) * 5,2) + Math.pow(Math.abs(startY - endY) * 5,2)));
     }
 
     public int getGCost() {
