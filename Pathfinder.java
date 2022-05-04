@@ -1,54 +1,102 @@
+import java.util.ArrayList;
+
 public class Pathfinder {
     
     Graph graph;
-    OpenNodesList openNodes = new OpenNodesList();
+    ArrayList<GraphNode> openNodes = new ArrayList<>();
+    ArrayList<GraphNode> closedNodes = new ArrayList<>();
     GraphNode startNode;
     GraphNode endNode;
+    GraphNode currentNode;
 
     final int[] nPosX = {0, 1, 0, -1};
     final int[] nPosY = {1, 0, -1, 0};
+
+    
 
     public Pathfinder(Graph graph)
     {
         this.graph = graph;
     }
 
-    public GraphNode[] path(int startX, int startY, int endX, int endY)
+    public GraphNode path(int startX, int startY, int endX, int endY)
     {
         startNode = graph.getNode(startX, startY);
         endNode  = graph.getNode(endX, endY);
-        GraphNode[] result;
 
-        for (int i = 0; i < 4; ++i)
+        openNodes.add(startNode);
+        while(openNodes.size() > 0)
         {
-            openNode(startNode.getPosX() + nPosX[i], startNode.getPosY() + nPosY[i]);
-        }
+            currentNode = getSmallestFCost();
+            System.out.println(currentNode.getPosX() +", " + currentNode.getPosY());
 
-        openNodes.printNodes();
+            if (currentNode == endNode)
+            {
+                return currentNode;
+            }
+
+            for (int i = 0; i < 4; ++i)
+            {
+                openNode(graph.getNode(currentNode.getPosX() + nPosX[i], currentNode.getPosY() + nPosY[i]));
+            }
+
+            openNodes.remove(currentNode);
+            closedNodes.add(currentNode);
+
+        }
+        
 
         return null;
     }
 
-    public void closeNode(OpenNode nodeToClose)
+    public void openNode(GraphNode nodeToOpen)
     {
-        // add node to closed nodes
-
-        // Tet for optimal path?
-
-        // open new n nodes
-        for (int i = 0; i < 4; ++i)
+        
+            if (!nodeToOpen.isBlocked())
         {
-            openNode(nodeToClose.getPosX() + nPosX[i], nodeToClose.getPosY() + nPosY[i]);
-        }
+            if (!closedNodes.contains(nodeToOpen) && !openNodes.contains(nodeToOpen))
+        {
+            nodeToOpen.setgCost(getDistance(startNode.getPosX(), startNode.getPosY(), nodeToOpen.getPosX(), nodeToOpen.getPosY()));
+            nodeToOpen.sethCost(getDistance(nodeToOpen.getPosX(), nodeToOpen.getPosY(), endNode.getPosX(), endNode.getPosY()));
+            nodeToOpen.setfCost(nodeToOpen.getgCost() + nodeToOpen.gethCost());
 
+            openNodes.add(nodeToOpen);
+            nodeToOpen.setPriviousGraphNode(currentNode);
+        }
+        else
+        {
+            if (nodeToOpen != startNode)
+            {
+                if(currentNode.getfCost() < nodeToOpen.getPriviousGraphNode().getfCost())
+            {
+                nodeToOpen.setPriviousGraphNode(currentNode);
+                if (closedNodes.contains(nodeToOpen))
+                {
+                    closedNodes.remove(nodeToOpen);
+                    openNodes.add(nodeToOpen);
+                }
+            }
+            }
+        }
+        }
+        
+        
     }
 
-    public void openNode(int x, int y)
+    private int getDistance(int startX, int startY, int endX, int endY)
     {
-        if (!graph.isNodeBlocked(x, y))
-        {
-            graph.nodes[x][y] = new OpenNode(graph.nodes[x][y], startNode, endNode);
-            openNodes.addNode((OpenNode)graph.getNode(x, y));
+        return (int) Math.round(Math.sqrt(Math.pow(Math.abs(startX - endX) * 5,2) + Math.pow(Math.abs(startY - endY) * 5,2)));
+    }
+
+    private GraphNode getSmallestFCost()
+    {
+        GraphNode result = openNodes.get(0);
+        for (GraphNode graphNode : openNodes) {
+            if (graphNode.getfCost() < result.getfCost())
+            {
+                result = graphNode;
+            }
         }
+        return result;
     }
 }

@@ -22,6 +22,13 @@ public class Main {
         Graph projectGraph = new Graph(10, nodeMapStrings);
         Pathfinder pathfinder = new Pathfinder(projectGraph);
 
-        pathfinder.path(4, 8, 6, 1);
+        GraphNode pathNode = pathfinder.path(4, 8, 6, 1);
+
+        GraphNode pathStepNode = pathNode;
+        while (pathStepNode.getPriviousGraphNode() != null)
+        {
+            System.out.println(pathStepNode.getPosX() + pathStepNode.getPosY());
+            pathStepNode = pathStepNode.getPriviousGraphNode();
+        }
     }
 }

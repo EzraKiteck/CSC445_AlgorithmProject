@@ -8,7 +8,7 @@ public class Graph
 
     public Graph(int size, String[] buildStrings)
     {
-        nodes = new DefaultNode[size][size];
+        nodes = new GraphNode[size][size];
 
         for (int y = 0; y < size; ++y)
         {
@@ -17,11 +17,11 @@ public class Graph
             {
                 if (row.charAt(x) == '0')
                 {
-                    nodes[x][y] = new DefaultNode(false, x, y);
+                    nodes[x][y] = new GraphNode(false, x, y);
                 }
                 else
                 {
-                    nodes[x][y] = new DefaultNode(true, x, y); 
+                    nodes[x][y] = new GraphNode(true, x, y); 
                 }
             }
         }
@@ -63,7 +63,7 @@ public class Graph
     {
         if (x < nodes.length && y < nodes[0].length && x >= 0 && y >= 0)
         {
-            return nodes[x][y].getIsBlocked();
+            return nodes[x][y].isBlocked();
         }
         else
         {
